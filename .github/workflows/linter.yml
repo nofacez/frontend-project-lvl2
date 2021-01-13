@@ -19,6 +19,6 @@ jobs:
       - name: Run Linter
         run: |
           make lint
-      - nameL Run tests
+      - name: Run tests
         run: |
           make tests
