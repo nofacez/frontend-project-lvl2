@@ -1,14 +1,12 @@
+/* eslint-disable import/extensions */
 import _ from 'lodash';
-import fs from 'fs';
-import path from 'path';
-
-const getPath = (dir, filename) => path.resolve(dir, filename);
+import parseFile from './parsers.js';
 
 const gendiff = (filepath1, filepath2) => {
   const resultArray = [];
-  const dir = process.cwd();
-  const file1 = JSON.parse(fs.readFileSync(getPath(dir, filepath1)));
-  const file2 = JSON.parse(fs.readFileSync(getPath(dir, filepath2)));
+
+  const file1 = parseFile(filepath1);
+  const file2 = parseFile(filepath2);
 
   const keys1 = Object.keys(file1);
   const keys2 = Object.keys(file2);
