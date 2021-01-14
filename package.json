@@ -4,10 +4,9 @@
   "description": "[![Actions Status](https://github.com/nofacez/frontend-project-lvl2/workflows/hexlet-check/badge.svg)](https://github.com/nofacez/frontend-project-lvl2/actions)",
   "main": "gendiff.js",
   "type": "module",
-
   "scripts": {
     "test": "npx -n '--experimental-vm-modules --no-warnings' jest --colors",
-    "coverage": "npm test --coverage"
+    "coverage": "nyc npm run test --coverage"
   },
   "repository": {
     "type": "git",
@@ -27,9 +26,11 @@
     "eslint": "^7.17.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1",
+    "istanbul": "^0.4.5",
     "lint": "^0.7.0",
     "lodash": "^4.17.20",
-    "make": "^0.8.1"
+    "make": "^0.8.1",
+    "nyc": "^15.1.0"
   },
   "devDependencies": {
     "jest": "^26.6.3"
