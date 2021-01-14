@@ -22,7 +22,7 @@ jobs:
       - name: Run tests
         run: |
           make tests
-  build:
+
     name: Test coverage
     runs-on: ubuntu-latest
     steps:
