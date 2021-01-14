@@ -5,8 +5,8 @@
   "main": "gendiff.js",
   "type": "module",
   "scripts": {
-    "test": "npx -n '--experimental-vm-modules --no-warnings' jest --colors",
-    "coverage": "npm run test --coverage"
+    "test": "npx -n '--experimental-vm-modules --no-warnings' jest --colors --coverage",
+    "coverage": "npm run test"
   },
   "repository": {
     "type": "git",
