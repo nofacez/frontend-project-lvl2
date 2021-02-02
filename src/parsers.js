@@ -1,8 +1,8 @@
+/* eslint-disable import/extensions */
 import path from 'path';
 import yaml from 'js-yaml';
 import fs from 'fs';
-
-const getPath = (dir, filename) => path.resolve(dir, filename);
+import getPath from './getPath.js';
 
 export default (fileName, dir = process.cwd()) => {
   if (path.extname(fileName).includes('yml') || path.extname(fileName).includes('yaml')) {
