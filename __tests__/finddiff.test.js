@@ -1,13 +1,14 @@
 /* eslint-disable no-undef */
 import fs from 'fs';
 import path from 'path';
-import gendiff from '../src/finddiff';
+import gendiff from '../src/stylish';
 
-const getFixturePath = (filename, format = '') => path.normalize(path.join('__fixtures__', format, filename));
+const getFixturePath = (filename, format = '') => path.normalize(path.join(process.cwd(), '__fixtures__', format, filename));
 
 test('gendiff json', () => {
-  const dif = gendiff(getFixturePath('file3.json', 'json'), getFixturePath('file4.json', 'json'));
-  const result = fs.readFileSync(getFixturePath('result2', 'json'), 'utf-8');
+  console.log(getFixturePath('file3.json', 'json'));
+  const dif = gendiff(getFixturePath('file1.json', 'json'), getFixturePath('file2.json', 'json'));
+  const result = fs.readFileSync(getFixturePath('result', 'json'), 'utf-8');
   expect(dif).toEqual(result);
 });
 

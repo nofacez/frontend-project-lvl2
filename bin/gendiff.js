@@ -1,6 +1,6 @@
 /* eslint-disable import/extensions */
 import { Command } from 'commander';
-import gendiff from '../src/finddiff.js';
+import gendiff from '../src/stylish.js';
 
 const program = new Command();
 program
