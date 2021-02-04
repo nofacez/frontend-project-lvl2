@@ -41,7 +41,7 @@ const getFileData = (filePath1, filePath2) => {
         } else {
           result.push([state, key, value2]);
         }
-        //not in the second but in the second
+        //not in the second but in the first
       } else if (!_.has(obj2, key)) {
         const state = status === 'removed' ? ' ' : '-';
         if (_.isObject(value1) && !_.isString(value1)) {
