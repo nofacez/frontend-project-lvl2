@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import fs from 'fs';
 import path from 'path';
-import gendiff from '../src/stylish';
+import gendiff from '../src/finddiff';
 
 const getFixturePath = (filename, format = '') => path.normalize(path.join(process.cwd(), '__fixtures__', format, filename));
 
