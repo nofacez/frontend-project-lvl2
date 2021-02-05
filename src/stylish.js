@@ -1,11 +1,9 @@
 /* eslint-disable import/extensions */
 import _ from 'lodash';
-import getDiff from './finddiff.js';
 
 const hasChildren = (obj) => _.keys(obj).includes('children');
 
-const styleData = (file1, file2) => {
-  const dif = getDiff(file1, file2);
+const styleData = (dif) => {
   const space = ' ';
   const result = [];
   const inner = (arr, depth = 0) => {

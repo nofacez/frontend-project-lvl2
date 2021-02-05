@@ -3,12 +3,13 @@
 /* eslint-disable import/extensions */
 import _ from 'lodash';
 import parsers from './parsers.js';
+import stylish from './stylish.js';
 
-const getFileData = (filePath1, filePath2) => {
+const getFileData = (filePath1, filePath2, formater = stylish) => {
   const file1 = parsers(filePath1);
   const file2 = parsers(filePath2);
 
-  const iterate = (obj1, obj2, status = ' ') => {
+  const iterate = (obj1, obj2, status = '') => {
     const result = [];
     const keys1 = Object.keys(obj1);
     const keys2 = Object.keys(obj2);
@@ -17,7 +18,7 @@ const getFileData = (filePath1, filePath2) => {
       const value1 = obj1[key];
       const value2 = obj2[key];
       if (_.has(obj1, key) && _.has(obj2, key)) {
-        if (_.isObject(obj1[key]) && _.isObject(obj2[key])) {
+        if (_.isObject(value1) && _.isObject(value2)) {
           result.push({ name: key, type: ' ', children: iterate(value1, value2) });
         } else if (value1 === value2) {
           result.push([' ', key, value1]);
@@ -53,8 +54,7 @@ const getFileData = (filePath1, filePath2) => {
     });
     return result;
   };
-  return iterate(file1, file2);
+  return formater(iterate(file1, file2));
 };
 
-// getFileData('file3.json', 'file4.json');
 export default getFileData;
