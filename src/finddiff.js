@@ -3,9 +3,9 @@
 /* eslint-disable import/extensions */
 import _ from 'lodash';
 import parsers from './parsers.js';
-import stylish from './stylish.js';
+import formatData from '../formatters/index.js';
 
-const getFileData = (filePath1, filePath2, formater = stylish) => {
+const genDiff = (filePath1, filePath2, formater = 'stylish') => {
   const file1 = parsers(filePath1);
   const file2 = parsers(filePath2);
 
@@ -24,37 +24,47 @@ const getFileData = (filePath1, filePath2, formater = stylish) => {
           result.push([' ', key, value1]);
         } else {
           if (_.isObject(value1)) {
-            result.push({ name: key, type: '-', children: iterate(value1, {}, 'removed') });
+            result.push({
+              name: key, type: '-', children: iterate(value1, {}, 'removed'), itemState: 'updated',
+            });
           } else {
-            result.push(['-', key, value1]);
+            result.push(['-', key, value1, 'updated']);
           }
           if (_.isObject(value2)) {
-            result.push({ name: key, type: '+', children: iterate(value1, {}) });
+            result.push({
+              name: key, type: '+', children: iterate(value1, {}), itemState: 'updated',
+            });
           } else {
-            result.push(['+', key, value2]);
+            result.push(['+', key, value2, 'updated']);
           }
         }
       //not in the first but in the second
       } else if (!_.has(obj1, key)) {
         const state = status === 'removed' ? ' ' : '+';
         if (_.isObject(value2) && !_.isString(value2)) {
-          result.push({ name: key, type: state, children: iterate(value2, {}, 'removed') });
+          result.push({
+            name: key, type: state, children: iterate(value2, {}, 'removed'), itemState: 'addedFull',
+          });
         } else {
-          result.push([state, key, value2]);
+          result.push([state, key, value2, 'added']);
         }
         //not in the second but in the first
       } else if (!_.has(obj2, key)) {
         const state = status === 'removed' ? ' ' : '-';
         if (_.isObject(value1) && !_.isString(value1)) {
-          result.push({ name: key, type: state, children: iterate(value1, {}, 'removed') });
+          result.push({
+            name: key, type: state, children: iterate(value1, {}, 'removed'), itemState: 'removedFull',
+          });
         } else {
-          result.push([state, key, value1]);
+          result.push([state, key, value1, 'removed']);
         }
       }
     });
     return result;
   };
-  return formater(iterate(file1, file2));
+  // return iterate(file1, file2);
+  const data = formatData(iterate(file1, file2), formater);
+  return data;
 };
 
-export default getFileData;
+export default genDiff;

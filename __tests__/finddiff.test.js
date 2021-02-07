@@ -17,3 +17,9 @@ test('gendiff yml', () => {
   const result = fs.readFileSync(getFixturePath('result2', 'yml'), 'utf-8');
   expect(dif).toEqual(result);
 });
+
+test('plain formater', () => {
+  const dif = gendiff(getFixturePath('file3.json', 'json'), getFixturePath('file4.json', 'json'), 'plain');
+  const result = fs.readFileSync(getFixturePath('result3', 'json'), 'utf-8');
+  expect(dif).toEqual(result);
+});
