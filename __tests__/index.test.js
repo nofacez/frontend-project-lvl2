@@ -28,4 +28,4 @@ test('toJson', () => {
   const dif = gendiff(getFixturePath('file3.json'), getFixturePath('file4.json'), 'json');
   const result = fs.readFileSync(getFixturePath('result4'), 'utf-8');
   expect(dif).toEqual(result);
-})
+});
