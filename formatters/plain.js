@@ -54,7 +54,7 @@ const formatDataToPlain = (dif) => {
             path: formattedPath, state: item.state, from: item.value, to: newValue.value,
           };
         }
-        return { path: formattedPath, state: item.state, itemValue: item.value };
+        return { path: formattedPath, state: item.state, value: item.value };
       })
       .filter((item) => item !== undefined);
     const fin = [];
