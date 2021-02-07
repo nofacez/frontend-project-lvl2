@@ -50,7 +50,9 @@ const formatDataToPlain = (dif) => {
         if (item.state === 'updated') {
           const newValue = _.findLast(result, { path: item.path });
           if (item === newValue) return false;
-          return { path: formattedPath, state: item.state, from: item.value, to: newValue.value };
+          return {
+            path: formattedPath, state: item.state, from: item.value, to: newValue.value,
+          };
         }
         return { path: formattedPath, state: item.state, itemValue: item.value };
       })
