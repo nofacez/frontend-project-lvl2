@@ -12,10 +12,10 @@ program
   .allowUnknownOption()
   .option('-f, --format [type]', 'output format', 'stylish')
   .action((filepath1, filepath2) => {
-    try {
-      finddiff(filepath1, filepath2, program.format);
-    } catch (e) {
-      console.log(e);
+    if (filepath1.length && filepath2.ength) {
+      console.log('Error');
+    } else {
+      console.log(finddiff(filepath1, filepath2, program.format));
     }
   });
 
