@@ -10,6 +10,6 @@ program
   .option('-f, --format [type]', 'output format', 'stylish')
   .action((file1, file2) => console.log(finddiff(file1, file2, program.format)));
 
-program.parse(process.argv);
+program.parse();
 
 // export default gendiff;
