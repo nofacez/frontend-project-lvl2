@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable import/extensions */
 import { Command } from 'commander';
 import finddiff from '../src/finddiff.js';
@@ -10,12 +11,14 @@ program
   .description('Compares two configuration files and shows a difference.')
   .allowUnknownOption()
   .option('-f, --format [type]', 'output format', 'stylish')
-  .action((file1, file2) => console.log(finddiff(file1, file2, program.format), process.argv));
+  .action((filepath1, filepath2) => {
+    try {
+      finddiff(filepath1, filepath2, program.format);
+    } catch (e) {
+      console.log(e);
+    }
+  });
 
-try {
-  program.parse(process.argv);
-} catch (err) {
-  console.log(err);
-}
+program.parse(process.argv);
 
 export default finddiff;
