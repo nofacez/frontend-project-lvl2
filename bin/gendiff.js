@@ -12,6 +12,10 @@ program
   .option('-f, --format [type]', 'output format', 'stylish')
   .action((file1, file2) => console.log(finddiff(file1, file2, program.format), process.argv));
 
-program.parse(process.argv);
+try {
+  program.parse(process.argv);
+} catch (err) {
+  console.log(err);
+}
 
 export default finddiff;
