@@ -1,3 +1,3 @@
 import path from 'path';
 
-export default (dir, filename) => path.resolve(dir, filename);
+export default (filename) => path.resolve(process.cwd(), filename);
