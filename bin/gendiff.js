@@ -8,7 +8,14 @@ program
   .arguments('<filepath1>, <filepath2>')
   .description('Compares two configuration files and shows a difference.')
   .option('-f, --format [type]', 'output format', 'stylish')
-  .action((file1, file2) => console.log(finddiff(file1, file2, program.format)));
+  .action((file1, file2) => console.log(finddiff(file1, file2, program.format)))
+  .configureOutput({
+    // Visibly override write routines as example!
+    writeOut: (str) => process.stdout.write(`[OUT] ${str}`),
+    writeErr: (str) => process.stdout.write(`[ERR] ${str}`),
+    // Highlight errors in color.
+    outputError: (str, write) => write(str),
+  });
 
 program.parse(process.argv);
 
