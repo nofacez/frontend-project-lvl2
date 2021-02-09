@@ -12,6 +12,7 @@ program
   .allowUnknownOption()
   .option('-f, --format [type]', 'output format', 'stylish')
   .action((filepath1, filepath2) => {
+    console.log(filepath1, filepath2);
     console.log(finddiff(filepath1, filepath2, program.format));
   });
 
