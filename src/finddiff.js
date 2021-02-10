@@ -65,6 +65,7 @@ const genDiff = (filePath1, filePath2, formater = 'stylish') => {
   };
   // return iterate(file1, file2);
   const data = formatData(iterate(file1, file2), formater);
+  console.log(data);
   return data;
 };
 
