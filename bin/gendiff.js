@@ -11,9 +11,10 @@ program
   .allowUnknownOption()
   .helpOption('-h, --help', 'output usage information')
   .option('-f, --format [type]', 'output format', 'stylish')
+  .option('--colors', 'just do nothing');
 
 program
-  .arguments('<filepath1> <filepath2>')
+  .arguments('[filepath1] [filepath2]')
   .action((filepath1, filepath2) => {
     if (filepath1 === undefined || filepath2 === undefined) {
       program.outputHelp();
