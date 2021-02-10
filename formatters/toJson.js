@@ -1,4 +1,4 @@
 export default (dif) => {
-  console.log(JSON.stringify(dif))
-  JSON.stringify(dif);
-}
+  console.log(JSON.stringify(dif));
+  return JSON.stringify(dif);
+};
