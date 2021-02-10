@@ -2,13 +2,12 @@
 /* eslint-disable no-undef */
 import fs from 'fs';
 import path from 'path';
-import { fileURLToPath } from 'url';
 import gendiff from '../src/finddiff';
 
 // const __filename = fileURLToPath(import.meta.url);
 // const __dirname = dirname(__filename);
 // const getFixturePath = (filename) => path.normalize(path.join(, '__fixtures__', filename));
-const getFixturePath = (filename) => path.join(process.cwd(), '__fixtures__', filename);
+const getFixturePath = (filename) => path.join(process.cwd(), '..', '__fixtures__', filename);
 
 test('gendiff deep stylish', () => {
   console.log(getFixturePath('file1.json'));
