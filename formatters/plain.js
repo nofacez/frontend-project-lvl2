@@ -6,25 +6,6 @@ const hasChildren = (obj) => _.keys(obj).includes('children');
 
 const complexValue = '[complex value]';
 
-// const wasRemoved = (path) => `Property '${path}' was removed`;
-
-// const wasUpdated = (path, oldValue, newValue) => {
-//   if (!_.isString(newValue) || newValue === complexValue) {
-//     return `Property '${path}' was updated. From ${oldValue} to ${newValue}`;
-//   }
-//   if (!_.isString(oldValue) || oldValue === complexValue) {
-//     return `Property '${path}' was updated. From ${oldValue} to '${newValue}'`;
-//   }
-//   return `Property '${path}' was updated. From '${oldValue}' to '${newValue}'`;
-// };
-
-// const wasAdded = (path, newValue) => {
-//   if (!_.isString(newValue) || newValue === complexValue) {
-//     return `Property '${path}' was added with value: ${newValue}`;
-//   }
-//   return `Property '${path}' was added with value: '${newValue}'`;
-// };
-
 const mapping = {
   removed: (path) => `Property '${path}' was removed`,
   removedFull: (path) => `Property '${path}' was removed`,
@@ -51,10 +32,9 @@ const formatDataToPlain = (dif) => {
   const unfilteredData = [];
   const inner = (difference, path = '') => {
     _.forEach(difference, (item) => {
-      let newPath = path;
       if (hasChildren(item) && !_.isString(item)) {
         const { name, children, itemState } = item;
-        newPath = path.concat('.', name);
+        const newPath = path.concat('.', name);
         if (itemState === 'removedFull' || itemState === 'addedFull' || itemState === 'updated') {
           unfilteredData.push({ path: newPath, state: itemState, value: complexValue });
         } else {
@@ -63,7 +43,7 @@ const formatDataToPlain = (dif) => {
         }
       } else {
         const [type, name, value, itemState] = item;
-        newPath = path.concat('.', name);
+        const newPath = path.concat('.', name);
         unfilteredData.push({ path: newPath, state: itemState, value });
       }
     });
