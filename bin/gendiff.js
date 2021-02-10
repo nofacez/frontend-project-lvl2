@@ -10,7 +10,8 @@ program
   .description('Compares two configuration files and shows a difference.')
   .allowUnknownOption()
   .helpOption('-h, --help', 'output usage information')
-  .option('-f, --format [type]', 'output format', 'stylish');
+  .option('-f, --format [type]', 'output format', 'stylish')
+  .option('--colors', 'just do nothing');
 
 program
   .arguments('[filepath1] [filepath2]')
@@ -28,4 +29,4 @@ const options = program.opts();
 if (options.help === true) {
   program.outputHelp();
 }
-// export default finddiff;
+export default finddiff;
