@@ -33,7 +33,7 @@ const genDiff = (filePath1, filePath2, formater = 'stylish') => {
           }
           if (_.isObject(value2)) {
             result.push({
-              name: key, type: '+', children: iterate(value2, {}), itemState: 'updated',
+              name: key, type: '+', children: iterate(value2, {}, 'removed'), itemState: 'updated',
             });
           } else {
             result.push(['+', key, value2, 'updated']);
@@ -51,7 +51,7 @@ const genDiff = (filePath1, filePath2, formater = 'stylish') => {
         }
         //not in the second but in the first
       } else if (!_.has(obj2, key)) {
-        const state = status === 'removed' ? ' ' : '-';
+        const state = status === 'removed' || status === 'updated' ? ' ' : '-';
         if (_.isObject(value1) && !_.isString(value1)) {
           result.push({
             name: key, type: state, children: iterate(value1, {}, 'removed'), itemState: 'removedFull',
