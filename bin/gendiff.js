@@ -1,9 +1,9 @@
 /* eslint-disable max-len */
 /* eslint-disable import/extensions */
-import { Command } from 'commander';
+import program from 'commander';
 import finddiff from '../src/finddiff.js';
 
-const program = new Command();
+// const program = new Command();
 
 // program
 //   .version('0.0.1')
