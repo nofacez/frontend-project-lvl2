@@ -8,7 +8,6 @@ import formatData from '../formatters/index.js';
 const genDiff = (filePath1, filePath2, formater = 'stylish') => {
   const file1 = parsers(filePath1);
   const file2 = parsers(filePath2);
-  console.log(file1, file2);
 
   const iterate = (obj1, obj2, status = '') => {
     const result = [];
@@ -51,7 +50,7 @@ const genDiff = (filePath1, filePath2, formater = 'stylish') => {
         }
         //not in the second but in the first
       } else if (!_.has(obj2, key)) {
-        const state = status === 'removed' || status === 'updated' ? ' ' : '-';
+        const state = status === 'removed' ? ' ' : '-';
         if (_.isObject(value1) && !_.isString(value1)) {
           result.push({
             name: key, type: state, children: iterate(value1, {}, 'removed'), itemState: 'removedFull',
@@ -65,7 +64,6 @@ const genDiff = (filePath1, filePath2, formater = 'stylish') => {
   };
   // return iterate(file1, file2);
   const data = formatData(iterate(file1, file2), formater);
-  console.log(data);
   return data;
 };
 
