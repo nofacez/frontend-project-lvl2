@@ -7,10 +7,12 @@ const program = new Command();
 
 program
   .version('0.0.1')
-  .arguments('<filepath1> <filepath2>')
   .description('Compares two configuration files and shows a difference.')
   .allowUnknownOption()
-  .option('-f, --format [type]', 'output format', 'stylish')
+  .option('-f, --format [type]', 'output format', 'stylish');
+
+program
+  .arguments('[filepath1] [filepath2]')
   .action((filepath1, filepath2) => {
     if (filepath1 === undefined || filepath2 === undefined) {
       program.outputHelp();
@@ -21,4 +23,8 @@ program
 
 program.parse(process.argv);
 
+const options = program.opts();
+if (options.help === true) {
+  program.outputHelp();
+}
 // export default finddiff;
