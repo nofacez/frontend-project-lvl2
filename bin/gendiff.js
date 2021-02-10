@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 /* eslint-disable max-len */
 /* eslint-disable import/extensions */
 import program from 'commander';
