@@ -7,13 +7,13 @@ const getFixturePath = (filename) => path.normalize(path.join(process.cwd(), '__
 
 test('gendiff deep stylish', () => {
   const dif = gendiff(getFixturePath('file1.json'), getFixturePath('file2.yml'));
-  const result = fs.readFileSync(getFixturePath('result2'), 'utf-8');
+  const result = fs.readFileSync(getFixturePath('stylishResult'), 'utf-8');
   expect(dif).toEqual(result);
 });
 
 test('plain formater', () => {
   const dif = gendiff(getFixturePath('file1.json'), getFixturePath('file2.yml'), 'plain');
-  const result = fs.readFileSync(getFixturePath('result3'), 'utf-8');
+  const result = fs.readFileSync(getFixturePath('plainResult'), 'utf-8');
   expect(dif).toEqual(result);
 });
 
