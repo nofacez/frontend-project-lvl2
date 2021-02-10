@@ -6,7 +6,6 @@ import parsers from './parsers.js';
 import formatData from '../formatters/index.js';
 
 const genDiff = (filePath1, filePath2, formater = 'stylish') => {
-  console.log(filePath1, filePath2);
   const file1 = parsers(filePath1);
   const file2 = parsers(filePath2);
 
