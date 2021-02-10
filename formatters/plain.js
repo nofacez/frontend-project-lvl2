@@ -6,23 +6,45 @@ const hasChildren = (obj) => _.keys(obj).includes('children');
 
 const complexValue = '[complex value]';
 
-const wasRemoved = (path) => `Property '${path}' was removed`;
+// const wasRemoved = (path) => `Property '${path}' was removed`;
 
-const wasUpdated = (path, oldValue, newValue) => {
-  if (!_.isString(newValue) || newValue === complexValue) {
-    return `Property '${path}' was updated. From ${oldValue} to ${newValue}`;
-  }
-  if (!_.isString(oldValue) || oldValue === complexValue) {
-    return `Property '${path}' was updated. From ${oldValue} to '${newValue}'`;
-  }
-  return `Property '${path}' was updated. From '${oldValue}' to '${newValue}'`;
-};
+// const wasUpdated = (path, oldValue, newValue) => {
+//   if (!_.isString(newValue) || newValue === complexValue) {
+//     return `Property '${path}' was updated. From ${oldValue} to ${newValue}`;
+//   }
+//   if (!_.isString(oldValue) || oldValue === complexValue) {
+//     return `Property '${path}' was updated. From ${oldValue} to '${newValue}'`;
+//   }
+//   return `Property '${path}' was updated. From '${oldValue}' to '${newValue}'`;
+// };
 
-const wasAdded = (path, newValue) => {
-  if (!_.isString(newValue) || newValue === complexValue) {
-    return `Property '${path}' was added with value: ${newValue}`;
-  }
-  return `Property '${path}' was added with value: '${newValue}'`;
+// const wasAdded = (path, newValue) => {
+//   if (!_.isString(newValue) || newValue === complexValue) {
+//     return `Property '${path}' was added with value: ${newValue}`;
+//   }
+//   return `Property '${path}' was added with value: '${newValue}'`;
+// };
+
+const mapping = {
+  removed: (path) => `Property '${path}' was removed`,
+  removedFull: (path) => `Property '${path}' was removed`,
+  added: (path, newValue) => {
+    if (!_.isString(newValue) || newValue === complexValue) {
+      return `Property '${path}' was added with value: ${newValue}`;
+    }
+    return `Property '${path}' was added with value: '${newValue}'`;
+  },
+  addedFull: (path, newValue) => {
+    if (!_.isString(newValue) || newValue === complexValue) {
+      return `Property '${path}' was added with value: ${newValue}`;
+    }
+    return `Property '${path}' was added with value: '${newValue}'`;
+  },
+  updated: (path, oldValue, newValue) => {
+    const readyOldValue = !_.isString(oldValue) || oldValue === complexValue ? `${oldValue}` : `'${oldValue}'`;
+    const readyNewValue = !_.isString(newValue) || newValue === complexValue ? `${newValue}` : `'${newValue}'`;
+    return `Property '${path}' was updated. From ${readyOldValue} to ${readyNewValue}`;
+  },
 };
 
 const formatDataToPlain = (dif) => {
@@ -64,14 +86,14 @@ const formatDataToPlain = (dif) => {
         switch (item.state) {
           case 'removed':
           case 'removedFull':
-            finalDifference.push(wasRemoved(item.path));
+            finalDifference.push(mapping[item.state](item.path));
             break;
           case 'added':
           case 'addedFull':
-            finalDifference.push(wasAdded(item.path, item.value));
+            finalDifference.push(mapping[item.state](item.path, item.value));
             break;
           case 'updated':
-            finalDifference.push(wasUpdated(item.path, item.from, item.to));
+            finalDifference.push(mapping[item.state](item.path, item.from, item.to));
             break;
           default:
             break;
