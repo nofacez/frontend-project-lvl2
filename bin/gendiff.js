@@ -10,8 +10,7 @@ program
   .description('Compares two configuration files and shows a difference.')
   .allowUnknownOption()
   .helpOption('-h, --help', 'output usage information')
-  .option('-f, --format [type]', 'output format', 'stylish')
-  .option('--colors', 'just do nothing');
+  .option('-f, --format [type]', 'output format', 'stylish');
 
 program
   .arguments('[filepath1] [filepath2]')
