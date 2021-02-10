@@ -33,7 +33,7 @@ const genDiff = (filePath1, filePath2, formater = 'stylish') => {
           }
           if (_.isObject(value2)) {
             result.push({
-              name: key, type: '+', children: iterate(value1, {}), itemState: 'updated',
+              name: key, type: '+', children: iterate(value2, {}), itemState: 'updated',
             });
           } else {
             result.push(['+', key, value2, 'updated']);
