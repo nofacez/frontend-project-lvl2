@@ -8,6 +8,7 @@ import formatData from '../formatters/index.js';
 const genDiff = (filePath1, filePath2, formater = 'stylish') => {
   const file1 = parsers(filePath1);
   const file2 = parsers(filePath2);
+  console.log(file1, file2);
 
   const iterate = (obj1, obj2, status = '') => {
     const result = [];
