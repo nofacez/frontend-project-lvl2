@@ -16,7 +16,8 @@ const genDiff = (filePath1, filePath2, formater = 'stylish') => {
   const iterate = (obj1, obj2) => {
     const keys1 = Object.keys(obj1);
     const keys2 = Object.keys(obj2);
-    const allKeys = _.uniq(keys1.concat(keys2));
+    const unsortedKeys = _.uniq(keys1.concat(keys2));
+    const allKeys = _.sortBy(unsortedKeys, [(key) => key]);
     const result = allKeys.flatMap((key) => {
       const value1 = obj1[key];
       const value2 = obj2[key];
