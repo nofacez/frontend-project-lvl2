@@ -8,20 +8,13 @@ const complexValue = '[complex value]';
 
 const mapping = {
   removed: (path) => `Property '${path}' was removed`,
-  removedFull: (path) => `Property '${path}' was removed`,
   added: (path, newValue) => {
     if (!_.isString(newValue) || newValue === complexValue) {
       return `Property '${path}' was added with value: ${newValue}`;
     }
     return `Property '${path}' was added with value: '${newValue}'`;
   },
-  addedFull: (path, newValue) => {
-    if (!_.isString(newValue) || newValue === complexValue) {
-      return `Property '${path}' was added with value: ${newValue}`;
-    }
-    return `Property '${path}' was added with value: '${newValue}'`;
-  },
-  updated: (path, oldValue, newValue) => {
+  from: (path, oldValue, newValue) => {
     const readyOldValue = !_.isString(oldValue) || oldValue === complexValue ? `${oldValue}` : `'${oldValue}'`;
     const readyNewValue = !_.isString(newValue) || newValue === complexValue ? `${newValue}` : `'${newValue}'`;
     return `Property '${path}' was updated. From ${readyOldValue} to ${readyNewValue}`;
@@ -29,60 +22,48 @@ const mapping = {
 };
 
 const formatDataToPlain = (dif) => {
-  const unfilteredData = [];
-  const inner = (difference, path = '') => {
-    _.forEach(difference, (item) => {
-      if (hasChildren(item) && !_.isString(item)) {
-        const { name, children, itemState } = item;
-        const newPath = path.concat('.', name);
-        if (itemState === 'removedFull' || itemState === 'addedFull' || itemState === 'updated') {
-          unfilteredData.push({ path: newPath, state: itemState, value: complexValue });
-        } else {
-          unfilteredData.push({ path: newPath, state: itemState, value: complexValue });
-          inner(children, newPath);
+  const inner = (difference, initPath = '') => {
+    const unfilteredResult = difference
+      .flatMap((item) => {
+        if (hasChildren(item)) {
+          const { name, children, itemState } = item;
+          const newPath = initPath.concat('.', name);
+          return inner(children, newPath);
         }
-      } else {
-        const [type, name, value, itemState] = item;
-        const newPath = path.concat('.', name);
-        unfilteredData.push({ path: newPath, state: itemState, value });
-      }
-    });
-    const finalDifference = [];
-    unfilteredData
+        const { name, value, itemState } = item;
+        const newPath = initPath.concat('.', name);
+        if (_.isObject(value)) {
+          return { path: newPath.slice(1), state: itemState, value: complexValue };
+        }
+        return { path: newPath.slice(1), state: itemState, value };
+      });
+    const result = unfilteredResult
+      .filter((item) => item.state !== 'equal')
       .map((item) => {
-        const formattedPath = item.path.slice(1);
-        if (item.state === 'updated') {
-          const newValue = _.findLast(unfilteredData, { path: item.path });
-          if (item === newValue) return false;
-          return {
-            path: formattedPath, state: item.state, from: item.value, to: newValue.value,
-          };
+        if (item.state === 'from') {
+          const updatedTo = _.find(unfilteredResult, { path: item.path, state: 'to' }).value;
+          return { ...item, updatedTo };
         }
-        return {
-          path: formattedPath, state: item.state, value: item.value,
-        };
-      })
-      .forEach((item) => {
+        return item;
+      });
+    const fin = result;
+    return fin
+      .filter((item) => item.state !== 'to')
+      .map((item) => {
         switch (item.state) {
           case 'removed':
-          case 'removedFull':
-            finalDifference.push(mapping[item.state](item.path));
-            break;
+            return mapping[item.state](item.path);
           case 'added':
-          case 'addedFull':
-            finalDifference.push(mapping[item.state](item.path, item.value));
-            break;
-          case 'updated':
-            finalDifference.push(mapping[item.state](item.path, item.from, item.to));
-            break;
+            return mapping[item.state](item.path, item.value);
+          case 'from':
+            return mapping[item.state](item.path, item.value, item.updatedTo);
           default:
-            break;
+            return item;
         }
       });
-    return `${finalDifference.join('\n')}`;
   };
-  return inner(dif);
+  const data = inner(dif);
+  return `${data.join('\n')}`;
 };
 
-// console.log(formatDataToPlain('../src/file3.json', '../src/file4.json'));
 export default formatDataToPlain;

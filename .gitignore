@@ -2,3 +2,4 @@
 /node_modules
 ./src/testfile.js
 .babelrc
+./src/finddiff_old.js
