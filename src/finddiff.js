@@ -10,8 +10,8 @@ const genDiff = (filePath1, filePath2, formater = 'stylish') => {
 
   const iterate = (obj1, obj2) => {
     const keys = _.union(_.keys(obj1), _.keys(obj2));
-    const allSortedKeys = _.sortBy(keys);
-    const result = allSortedKeys.flatMap((key) => {
+    const sortedKeys = _.sortBy(keys);
+    const result = sortedKeys.flatMap((key) => {
       const value1 = obj1[key];
       const value2 = obj2[key];
       if (_.has(obj1, key) && _.has(obj2, key)) {
@@ -24,7 +24,7 @@ const genDiff = (filePath1, filePath2, formater = 'stylish') => {
           { name: key, type: '-', value: value1, itemState: 'from' },
           { name: key, type: '+', value: value2, itemState: 'to' },
         ];
-      } if (!_.has(obj1, key)) {
+      } if (_.has(obj2, key)) {
         return { name: key, type: '+', value: value2, itemState: 'added' };
       }
       return { name: key, type: '-', value: value1, itemState: 'removed' };
@@ -34,7 +34,6 @@ const genDiff = (filePath1, filePath2, formater = 'stylish') => {
 
   const data = formatData(iterate(file1, file2), formater);
   return data;
-  // console.log(data);
 };
 
 export default genDiff;
