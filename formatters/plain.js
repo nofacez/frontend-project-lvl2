@@ -25,19 +25,17 @@ const formatDataToPlain = (dif) => {
   const inner = (difference, initPath = '') => {
     const unfilteredResult = difference
       .flatMap((item) => {
+        const newPath = initPath.concat('.', item.name);
         if (hasChildren(item)) {
-          const { name, children, itemState } = item;
-          const newPath = initPath.concat('.', name);
-          return inner(children, newPath);
+          return inner(item.children, newPath);
         }
-        const { name, value, itemState } = item;
-        const newPath = initPath.concat('.', name);
+        const { value, itemState } = item;
         if (_.isObject(value)) {
           return { path: newPath.slice(1), state: itemState, value: complexValue };
         }
         return { path: newPath.slice(1), state: itemState, value };
       });
-    const result = unfilteredResult
+    const reuslt = unfilteredResult
       .filter((item) => item.state !== 'equal')
       .map((item) => {
         if (item.state === 'from') {
@@ -46,7 +44,7 @@ const formatDataToPlain = (dif) => {
         }
         return item;
       });
-    const fin = result;
+    const fin = reuslt;
     return fin
       .filter((item) => item.state !== 'to')
       .map((item) => {

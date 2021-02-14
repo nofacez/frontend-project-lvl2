@@ -1,9 +1,7 @@
 /* eslint-disable consistent-return */
 /* eslint-disable object-curly-newline */
 /* eslint-disable array-callback-return */
-/* eslint-disable no-else-return */
 /* eslint-disable spaced-comment */
-/* eslint-disable no-restricted-syntax */
 /* eslint-disable import/extensions */
 import _ from 'lodash';
 import parsers from './parsers.js';
@@ -17,26 +15,25 @@ const genDiff = (filePath1, filePath2, formater = 'stylish') => {
     const keys1 = Object.keys(obj1);
     const keys2 = Object.keys(obj2);
     const unsortedKeys = _.uniq(keys1.concat(keys2));
-    const allKeys = _.sortBy(unsortedKeys, [(key) => key]);
-    const result = allKeys.flatMap((key) => {
+    const allSortedKeys = _.sortBy(unsortedKeys, [(key) => key]);
+    const result = allSortedKeys.flatMap((key) => {
       const value1 = obj1[key];
       const value2 = obj2[key];
       if (_.has(obj1, key) && _.has(obj2, key)) {
         if (_.isObject(value1) && _.isObject(value2)) {
           return { name: key, type: ' ', children: iterate(value1, value2), itemState: 'equal' };
-        } else if (value1 === value2) {
+        } if (value1 === value2) {
           return { name: key, type: ' ', value: value1, itemState: 'equal' };
-        } else {
-          return [
-            { name: key, type: '-', value: value1, itemState: 'from' },
-            { name: key, type: '+', value: value2, itemState: 'to' },
-          ];
         }
-      } else if (!_.has(obj1, key)) {
+        return [
+          { name: key, type: '-', value: value1, itemState: 'from' },
+          { name: key, type: '+', value: value2, itemState: 'to' },
+        ];
+      } if (!_.has(obj1, key)) {
         return {
           name: key, type: '+', value: value2, itemState: 'added',
         };
-      } else if (!_.has(obj2, key)) {
+      } if (!_.has(obj2, key)) {
         return {
           name: key, type: '-', value: value1, itemState: 'removed',
         };
@@ -47,7 +44,8 @@ const genDiff = (filePath1, filePath2, formater = 'stylish') => {
 
   const data = formatData(iterate(file1, file2), formater);
   return data;
+  // console.log(data);
 };
 
 export default genDiff;
-// genDiff('../__fixtures__/file1.json', '../__fixtures__/file2.json');
+// genDiff('../__fixtures__/file1.json', '../__fixtures__/file2.json', 'plain');
