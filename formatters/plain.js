@@ -35,7 +35,7 @@ const formatDataToPlain = (dif) => {
         }
         return { path: newPath.slice(1), state: itemState, value };
       });
-    const reuslt = unfilteredResult
+    const result = unfilteredResult
       .filter((item) => item.state !== 'equal')
       .map((item) => {
         if (item.state === 'from') {
@@ -43,9 +43,7 @@ const formatDataToPlain = (dif) => {
           return { ...item, updatedTo };
         }
         return item;
-      });
-    const fin = reuslt;
-    return fin
+      })
       .filter((item) => item.state !== 'to')
       .map((item) => {
         switch (item.state) {
@@ -59,6 +57,7 @@ const formatDataToPlain = (dif) => {
             return item;
         }
       });
+    return result;
   };
   const data = inner(dif);
   return `${data.join('\n')}`;
