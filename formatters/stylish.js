@@ -11,20 +11,16 @@ const end = '}';
 const styleData = (dif) => {
   const inner = (arr, depth = 0) => {
     const result = arr.flatMap((item) => {
+      const openingLine = `${space.repeat(depth)}${item.type} ${item.name}: ${start}`;
+      const closingLine = `${space.repeat(depth + 2)}${end}`;
       if (hasChildren(item) && !_.isString(item)) {
-        const { name, type, children } = item;
-        const openingLine = `${space.repeat(depth)}${type} ${name}: ${start}`;
-        const closingLine = `${space.repeat(depth + 2)}${end}`;
-        return `${openingLine}${inner(children, depth + 4)}${closingLine}`;
+        return `${openingLine}${inner(item.children, depth + 4)}${closingLine}`;
       }
-      const { name, type, value } = item;
-      if (_.isObject(value)) {
-        const openingLine = `${space.repeat(depth)}${type} ${name}: ${start}`;
-        const closingLine = `${space.repeat(depth + 2)}${end}`;
-        return `${openingLine}${getChildren(value, depth + 4)}${closingLine}`;
+      // without children
+      if (_.isObject(item.value)) {
+        return `${openingLine}${getChildren(item.value, depth + 4)}${closingLine}`;
       }
-      const line = `${space.repeat(depth)}${type} ${name}: ${value}`;
-      return line;
+      return `${space.repeat(depth)}${item.type} ${item.name}: ${item.value}`;
     });
     const difference = `\n${result.join('\n')}\n`;
     return difference;
