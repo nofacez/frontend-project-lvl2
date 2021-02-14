@@ -3,22 +3,13 @@
 import _ from 'lodash';
 
 const hasChildren = (obj) => _.keys(obj).includes('children');
-
 const complexValue = '[complex value]';
+const getQuotes = (value) => (!_.isString(value) || value === complexValue ? `${value}` : `'${value}'`);
 
 const mapping = {
   removed: (path) => `Property '${path}' was removed`,
-  added: (path, newValue) => {
-    if (!_.isString(newValue) || newValue === complexValue) {
-      return `Property '${path}' was added with value: ${newValue}`;
-    }
-    return `Property '${path}' was added with value: '${newValue}'`;
-  },
-  from: (path, oldValue, newValue) => {
-    const readyOldValue = !_.isString(oldValue) || oldValue === complexValue ? `${oldValue}` : `'${oldValue}'`;
-    const readyNewValue = !_.isString(newValue) || newValue === complexValue ? `${newValue}` : `'${newValue}'`;
-    return `Property '${path}' was updated. From ${readyOldValue} to ${readyNewValue}`;
-  },
+  added: (path, newValue) => `Property '${path}' was added with value: ${getQuotes(newValue)}`,
+  from: (path, oldValue, newValue) => `Property '${path}' was updated. From ${getQuotes(oldValue)} to ${getQuotes(newValue)}`,
 };
 
 const formatDataToPlain = (dif) => {

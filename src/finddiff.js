@@ -1,7 +1,4 @@
-/* eslint-disable consistent-return */
 /* eslint-disable object-curly-newline */
-/* eslint-disable array-callback-return */
-/* eslint-disable spaced-comment */
 /* eslint-disable import/extensions */
 import _ from 'lodash';
 import parsers from './parsers.js';
@@ -12,10 +9,8 @@ const genDiff = (filePath1, filePath2, formater = 'stylish') => {
   const file2 = parsers(filePath2);
 
   const iterate = (obj1, obj2) => {
-    const keys1 = Object.keys(obj1);
-    const keys2 = Object.keys(obj2);
-    const unsortedKeys = _.uniq(keys1.concat(keys2));
-    const allSortedKeys = _.sortBy(unsortedKeys, [(key) => key]);
+    const keys = _.union(_.keys(obj1), _.keys(obj2));
+    const allSortedKeys = _.sortBy(keys);
     const result = allSortedKeys.flatMap((key) => {
       const value1 = obj1[key];
       const value2 = obj2[key];
@@ -30,14 +25,9 @@ const genDiff = (filePath1, filePath2, formater = 'stylish') => {
           { name: key, type: '+', value: value2, itemState: 'to' },
         ];
       } if (!_.has(obj1, key)) {
-        return {
-          name: key, type: '+', value: value2, itemState: 'added',
-        };
-      } if (!_.has(obj2, key)) {
-        return {
-          name: key, type: '-', value: value1, itemState: 'removed',
-        };
+        return { name: key, type: '+', value: value2, itemState: 'added' };
       }
+      return { name: key, type: '-', value: value1, itemState: 'removed' };
     });
     return result;
   };
