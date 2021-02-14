@@ -43,9 +43,9 @@ const genDiff = (filePath1, filePath2, formater = 'stylish') => {
   };
 
   const data = formatData(iterate(file1, file2), formater);
-  // return data;
-  console.log(data);
+  return data;
+  // console.log(data);
 };
 
-// export default genDiff;
-genDiff('../__fixtures__/file1.json', '../__fixtures__/file2.json', 'plain');
+export default genDiff;
+// genDiff('../__fixtures__/file1.json', '../__fixtures__/file2.json', 'plain');
