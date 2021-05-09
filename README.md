@@ -17,7 +17,11 @@
     gendiff(filepath1: string, filepath2: string, formatter: [stylish/plain/json])
     
   ``````
-  
+## Чему я научился?
+  * Подготавливать проект в виде npm package
+  * Работать с json/yml
+  * Использовать commander для работы с CLI
+
 ## Примеры использования:
 [![asciicast](https://asciinema.org/a/G1N6G3nTF6XboMlNZ1uv7x2k9.svg)](https://asciinema.org/a/G1N6G3nTF6XboMlNZ1uv7x2k9)
 [![asciicast Json](https://asciinema.org/a/Svt5QLRMlecQT0tGTZxSSKlWi.svg)](https://asciinema.org/a/Svt5QLRMlecQT0tGTZxSSKlWi)
