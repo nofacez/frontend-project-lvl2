@@ -10,13 +10,13 @@
   2) Истановить зависимости командой ```make install```
   3) ```node bin/gendiff.js [filepath1] [filepath2] (formatter[stylish/plain/json])```
   4) Проект также можно установить в виде зависимости и использовать у себя в проекте:
-  ```javascript```
+  ``````
   
     import gendiff from 'src/finddiff.js'
     
     gendiff(filepath1: string, filepath2: string, formatter: [stylish/plain/json])
     
-  ```javascript```
+  ``````
   
 ## Примеры использования:
 [![asciicast](https://asciinema.org/a/G1N6G3nTF6XboMlNZ1uv7x2k9.svg)](https://asciinema.org/a/G1N6G3nTF6XboMlNZ1uv7x2k9)
